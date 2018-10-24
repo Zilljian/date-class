@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include <time.h>
 #ifndef DATA_DATA_H
 #define DATA_DATA_H
@@ -9,12 +10,26 @@ public:
     Date();
     Date(long);
     Date (int, int, int);
+
+
+    bool operator < (Date&);
+    bool operator > (Date&);
+    bool operator == (Date&);
+    bool operator != (Date&);
+    friend Date operator - (const Date&,const Date&);
+    Date operator - (long);
+    Date operator + (long);
+    friend std::ostream& operator << (std::ostream&,const Date&);
+    friend std::istream& operator >> (std::istream&,Date&);
+
+
     std::string getDate();
     long getDateMs();
     void setDate(long);
     void setDate(int,int,int);
     void setCurrentTime();
     int compare(Date&);
+    ~Date();
 
 private:
     tm *dateTime;

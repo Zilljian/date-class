@@ -1,9 +1,9 @@
 #include "Date.h"
 #include <iostream>
 
-using namespace std;
 
-Date::Date(){
+Date::Date() : ms(0) {
+    dateTime = new (tm);
     setCurrentTime();
 }
 
@@ -22,17 +22,58 @@ Date::Date (int year, int month, int day) : ms(0) {
 }
 
 
-void Date::toYmd(){
-    long temp = ms / 1000;
-    dateTime = localtime(&temp);
+bool Date::operator < (Date &rightExpr) {
+    return ms < rightExpr.getDateMs();
 }
 
-void Date::toMs() {
-    ms = mktime(dateTime) * 1000;
+bool Date::operator > (Date &rightExpr) {
+    return ms > rightExpr.getDateMs();
 }
 
-string Date::getDate() {
-    return to_string(dateTime->tm_mday) + '/' + to_string(dateTime->tm_mon + 1) + '/' + to_string(dateTime->tm_year);
+bool Date::operator == (Date &rightExpr) {
+    return ms == rightExpr.getDateMs();
+}
+
+bool Date::operator != (Date &rightExpr) {
+    return ms != rightExpr.getDateMs();
+}
+
+Date operator - (const Date& leftExpr, const Date& rightExpr) {
+    return Date(leftExpr.ms - rightExpr.ms);
+}
+
+Date Date::operator - (long rightExpr) {
+    return Date(ms - rightExpr);
+}
+
+Date Date::operator + (long rightExpr) {
+    long temp = ms + rightExpr;
+    return Date(temp);
+}
+
+std::ostream& operator << (std::ostream& out, const Date& date) {
+    out << std::to_string(date.dateTime->tm_mday) << '/' <<
+    std::to_string(date.dateTime->tm_mon + 1) << '/' <<
+    std::to_string(date.dateTime->tm_year);
+    return out;
+}
+
+std::istream& operator >> (std::istream& in, Date& date) {
+    std::cin >> date.dateTime->tm_mday;
+    std::cin >> date.dateTime->tm_mon;
+    date.dateTime->tm_mon--;
+    std::cin >> date.dateTime->tm_year;
+    date.toMs();
+    return in;
+
+}
+
+
+
+std::string Date::getDate() {
+    return std::to_string(dateTime->tm_mday) + '/' +
+    std::to_string(dateTime->tm_mon + 1) + '/' +
+    std::to_string(dateTime->tm_year);
 }
 
 long Date::getDateMs() {
@@ -57,9 +98,22 @@ void Date::setDate(int year, int month, int day) {
     dateTime->tm_mday = day;
 }
 
-int Date::compare(Date& rValue) {
-    if (rValue.getDateMs() > this->getDateMs()) return -1;
-    else if (rValue.getDateMs() == this->getDateMs()) return 0;
+int Date::compare(Date& rightExpr) {
+    if (rightExpr.getDateMs() > this->getDateMs()) return -1;
+    else if (rightExpr.getDateMs() == this->getDateMs()) return 0;
     return 1;
+}
+
+void Date::toYmd() {
+    long temp = ms / 1000;
+    dateTime = localtime(&temp);
+}
+
+void Date::toMs() {
+    ms = mktime(dateTime) * 1000;
+}
+
+Date::~Date() {
+    delete dateTime;
 }
 

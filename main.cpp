@@ -5,18 +5,22 @@ using namespace std;
 
 int main() {
     Date firstDate = Date(1960, 1, 1);
-
-    cout << firstDate.getDateMs() << " " << firstDate.getDate() << endl;
-
     Date secondDate = Date(firstDate.getDateMs());
 
-    cout << secondDate.getDateMs() << " " << secondDate.getDate() << endl;
+    Date second = Date();
 
-    Date thirdDate = Date();
-    Date fourthDate = Date(thirdDate.getDateMs());
+    cout << firstDate.getDateMs() << " " << second.getDateMs() << endl;
 
-    cout << thirdDate.getDateMs() << " " << thirdDate.getDate() << endl;
-    cout << fourthDate.getDateMs() << " " << fourthDate.getDate() << endl; "
-    cout << fourthDate.compare(secondDate) << " " << firstDate.compare(thirdDate) << "
-    << fourthDate.compare(thirdDate) << endl;
+    cout << second.getDate() << endl;
+
+    if (firstDate < second) cout << second.getDate() << endl;
+    if (firstDate == secondDate) cout << secondDate.getDate() << endl;
+
+    Date sum = firstDate + 12421421434;
+    Date sub = second - firstDate;
+    Date sub2 = second - firstDate.getDateMs();
+
+    cout << firstDate << " ";
+    cin >> second;
+    cout << second << endl;
 }

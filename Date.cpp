@@ -53,19 +53,19 @@ Date operator + (const long& leftExpr,const Date& rightExpr) {
     return Date(leftExpr + rightExpr.ms);
 }
 
-
 std::ostream& operator << (std::ostream& out, const Date& date) {
     out << std::to_string(date.dateTime->tm_mday) << '/' <<
-    std::to_string(date.dateTime->tm_mon + 1) << '/' <<
-    std::to_string(date.dateTime->tm_year);
+           std::to_string(date.dateTime->tm_mon + 1) << '/' <<
+           std::to_string(date.dateTime->tm_year);
+    out.flush();
     return out;
 }
 
 std::istream& operator >> (std::istream& in, Date& date) {
-    std::cin >> date.dateTime->tm_mday;
-    std::cin >> date.dateTime->tm_mon;
+    in >> date.dateTime->tm_mday;
+    in >> date.dateTime->tm_mon;
+    in >> date.dateTime->tm_year;
     date.dateTime->tm_mon--;
-    std::cin >> date.dateTime->tm_year;
     date.toMs();
     return in;
 

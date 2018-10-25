@@ -16,5 +16,6 @@ int main() {
     Date sub4 = Date(3452345234623462436);
     Date sub2 = second - sum.getDateMs();
 
-    cout << sum << endl << sub << endl << sub3 << endl << sub4 << endl << sub2 << endl;
+    cin >> sum;
+    cout << sum;
 }

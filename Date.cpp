@@ -1,7 +1,6 @@
 #include "Date.h"
 #include <iostream>
 
-
 Date::Date() : ms(0) {
     dateTime = new (tm);
     setCurrentTime();
@@ -42,14 +41,18 @@ Date operator - (const Date& leftExpr, const Date& rightExpr) {
     return Date(leftExpr.ms - rightExpr.ms);
 }
 
-Date Date::operator - (long rightExpr) {
-    return Date(ms - rightExpr);
+Date operator - (const Date& leftExpr, const long& rightExpr) {
+    return Date(leftExpr.ms - rightExpr);
 }
 
-Date Date::operator + (long rightExpr) {
-    long temp = ms + rightExpr;
-    return Date(temp);
+Date operator + (const Date& leftExpr, const long& rightExpr) {
+    return Date(leftExpr.ms + rightExpr);
 }
+
+Date operator + (const long& leftExpr,const Date& rightExpr) {
+    return Date(leftExpr + rightExpr.ms);
+}
+
 
 std::ostream& operator << (std::ostream& out, const Date& date) {
     out << std::to_string(date.dateTime->tm_mday) << '/' <<
@@ -67,7 +70,6 @@ std::istream& operator >> (std::istream& in, Date& date) {
     return in;
 
 }
-
 
 
 std::string Date::getDate() {
@@ -104,9 +106,10 @@ int Date::compare(Date& rightExpr) {
     return 1;
 }
 
+
 void Date::toYmd() {
     long temp = ms / 1000;
-    dateTime = localtime(&temp);
+    localtime_r(&temp, dateTime);
 }
 
 void Date::toMs() {
@@ -116,4 +119,3 @@ void Date::toMs() {
 Date::~Date() {
     delete dateTime;
 }
-

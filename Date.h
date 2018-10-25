@@ -17,8 +17,9 @@ public:
     bool operator == (Date&);
     bool operator != (Date&);
     friend Date operator - (const Date&,const Date&);
-    Date operator - (long);
-    Date operator + (long);
+    friend Date operator - (const Date&,const long&);
+    friend Date operator + (const Date&,const long&);
+    friend Date operator + (const long&,const Date&);
     friend std::ostream& operator << (std::ostream&,const Date&);
     friend std::istream& operator >> (std::istream&,Date&);
 
@@ -32,7 +33,7 @@ public:
     ~Date();
 
 private:
-    tm *dateTime;
+    tm* dateTime;
     time_t ms;
     void toYmd();
     void toMs();
